@@ -1,1 +1,1 @@
-# geolocation-demo
+# my-project
