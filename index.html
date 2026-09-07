@@ -1,82 +1,67 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>photo</title>
 
-    <title>photo</title>
+<style>
+body {
+    margin: 0;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
 
-    <style>
-        body {
-            margin: 0;
-            background: #111;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
+#start {
+    padding-top: 100px;
+}
 
-        img {
-            max-width: 100%;
-            max-height: 70vh;
-            object-fit: contain;
-        }
+button {
+    padding: 15px 25px;
+    font-size: 17px;
+    cursor: pointer;
+}
 
-        button {
-            margin: 20px;
-            padding: 15px 25px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        #result {
-            margin: 15px;
-        }
-    </style>
+#photo {
+    display: none;
+    max-width: 100%;
+    max-height: 100vh;
+}
+</style>
 </head>
 
 <body>
 
-    <img src="https://picsum.photos/1200/800" alt="photo">
+<div id="start">
+    <h2>Для продолжения необходимо разрешить доступ к местоположению</h2>
+    <p>Браузер запросит ваше разрешение.</p>
+    <button onclick="getLocation()">Продолжить</button>
+</div>
 
-    <br>
+<img id="photo"
+     src="https://picsum.photos/1200/800"
+     alt="photo">
 
-    <button onclick="getLocation()">
-        Поделиться местоположением
-    </button>
+<script>
+function getLocation() {
+    if (!navigator.geolocation) {
+        alert("Ваш браузер не поддерживает геолокацию.");
+        return;
+    }
 
-    <div id="result"></div>
-
-    <script>
-        function getLocation() {
-            const result = document.getElementById("result");
-
-            if (!navigator.geolocation) {
-                result.innerHTML = "Геолокация не поддерживается браузером.";
-                return;
-            }
-
-            result.innerHTML = "Запрашиваем разрешение...";
-
-            navigator.geolocation.getCurrentPosition(
-                function(position) {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
-
-                    result.innerHTML =
-                        "Широта: " + lat +
-                        "<br>Долгота: " + lon +
-                        '<br><br><a style="color: lightblue;" target="_blank" href="https://www.google.com/maps?q=' +
-                        lat + ',' + lon +
-                        '">Открыть на карте</a>';
-                },
-
-                function(error) {
-                    result.innerHTML =
-                        "Доступ к местоположению не предоставлен.";
-                }
-            );
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            document.getElementById("start").style.display = "none";
+            document.getElementById("photo").style.display = "block";
+        },
+        function(error) {
+            alert("Доступ к местоположению не предоставлен.");
         }
-    </script>
+    );
+}
+</script>
 
 </body>
 </html>
