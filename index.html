@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Геолокация</title>
+</head>
+
+<body>
+<h1>Определение местоположения</h1>
+
+<p>Нажмите кнопку и разрешите доступ к геолокации.</p>
+
+<button onclick="getLocation()">
+Определить моё местоположение
+</button>
+
+<p id="result"></p>
+
+<script>
+function getLocation() {
+    const result = document.getElementById("result");
+
+    if (!navigator.geolocation) {
+        result.innerHTML = "Геолокация не поддерживается.";
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            result.innerHTML =
+                "Широта: " + lat +
+                "<br>Долгота: " + lon +
+                '<br><br><a target="_blank" href="https://www.google.com/maps?q=' +
+                lat + ',' + lon +
+                '">Открыть на карте</a>';
+        },
+
+        function() {
+            result.innerHTML =
+                "Доступ к местоположению не предоставлен.";
+        }
+    );
+}
+</script>
+
+</body>
+</html>
