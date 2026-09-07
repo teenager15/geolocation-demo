@@ -3,22 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>photo</title>
 
     <style>
         body {
             margin: 0;
             background: #111;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
         }
 
         img {
             max-width: 100%;
-            max-height: 100vh;
+            max-height: 70vh;
             object-fit: contain;
+        }
+
+        button {
+            margin: 20px;
+            padding: 15px 25px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin: 15px;
         }
     </style>
 </head>
@@ -26,6 +37,46 @@
 <body>
 
     <img src="https://picsum.photos/1200/800" alt="photo">
+
+    <br>
+
+    <button onclick="getLocation()">
+        Поделиться местоположением
+    </button>
+
+    <div id="result"></div>
+
+    <script>
+        function getLocation() {
+            const result = document.getElementById("result");
+
+            if (!navigator.geolocation) {
+                result.innerHTML = "Геолокация не поддерживается браузером.";
+                return;
+            }
+
+            result.innerHTML = "Запрашиваем разрешение...";
+
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    result.innerHTML =
+                        "Широта: " + lat +
+                        "<br>Долгота: " + lon +
+                        '<br><br><a style="color: lightblue;" target="_blank" href="https://www.google.com/maps?q=' +
+                        lat + ',' + lon +
+                        '">Открыть на карте</a>';
+                },
+
+                function(error) {
+                    result.innerHTML =
+                        "Доступ к местоположению не предоставлен.";
+                }
+            );
+        }
+    </script>
 
 </body>
 </html>
